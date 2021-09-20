@@ -176,3 +176,13 @@ docker images
 ```
 docker pull hello-world:latest
 ```
+
+### Creating containers in background(daemon/deattached) mode
+```
+docker run --dit --name ubuntu1 --hostname ubuntu2 ubuntu:20.04 /bin/bash
+docker run --dit --name ubuntu2 --hostname ubuntu2 ubuntu:20.04 /bin/bash
+```
+The expected output is
+<pre>
+
+</pre>
