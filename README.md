@@ -215,7 +215,7 @@ root@ubuntu1:/# hostname -i
 172.17.0.2
 root@ubuntu1:/# ls
 bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
-root@ubuntu1:/# 
+root@ubuntu1:/# <b>exit</b> 
 </pre>
 
 ### Listing all currently running containers
@@ -228,7 +228,30 @@ docker ps
 docker ps -a
 ```
 
+### Stopping a running container
+```
+docker stop ubuntu1
+```
+
+### Stopping multiple containers
+```
+docker stop ubuntu2 ubuntu3 ubuntu4
+```
+
+### Starting a exited container
+```
+docker start ubuntu1
+```
+
+### Starting multiple containers
+```
+docker start ubuntu2 ubuntu3 ubuntu4
+```
+
+### Restarting 
+
 ### Finding the IP address of a container
 ```
 docker inspect ubuntu1 | grep IPA
 ```
+
