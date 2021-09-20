@@ -185,17 +185,14 @@ docker run -dit --name ubuntu2 --hostname ubuntu2 ubuntu:20.04 /bin/bash
 ```
 The expected output is
 <pre>
-[jegan@tektutor ~]$ docker run --dit --name ubuntu1 --hostname ubuntu1 ubuntu:20.04 /bin/bash
-unknown flag: --dit
-See 'docker run --help'.
-[jegan@tektutor ~]$ docker run -dit --name ubuntu1 --hostname ubuntu1 ubuntu:20.04 /bin/bash
+[jegan@tektutor ~]$ <b>docker run -dit --name ubuntu1 --hostname ubuntu1 ubuntu:20.04 /bin/bash</b>
 Unable to find image 'ubuntu:20.04' locally
 20.04: Pulling from library/ubuntu
 35807b77a593: Pull complete 
 Digest: sha256:9d6a8699fb5c9c39cf08a0871bd6219f0400981c570894cd8cbea30d3424a31f
 Status: Downloaded newer image for ubuntu:20.04
 e5c04224c7488c9a4b15b9bf3c9de78e6f8e52042b562984c9a295ece6e72759
-[jegan@tektutor ~]$ docker run -dit --name ubuntu2 --hostname ubuntu2 ubuntu:20.04 /bin/bash
+[jegan@tektutor ~]$ <b>docker run -dit --name ubuntu2 --hostname ubuntu2 ubuntu:20.04 /bin/bash</b>
 417b2faf758be6ea3b690701f964d6d8bdcc0f832e00238cd7f2e5bcf86ff78c
 
 [jegan@tektutor ~]$ docker ps
