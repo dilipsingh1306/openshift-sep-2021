@@ -86,10 +86,12 @@
 
 ### Installing Docker-CE in CentOS
 ```
-sudo yum install -y yum-utils
-sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-sudo yum install -y docker-ce --allowerasing
-sudo systemctl enable docker && sudo systemctl start docker
+su -
+yum install -y yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install -y docker-ce --allowerasing
+systemctl enable docker && sudo systemctl start docker
 docker --version
 docker images
 ```
+When prompted for root password, type rps@12345
