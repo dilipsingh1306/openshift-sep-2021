@@ -296,3 +296,97 @@ docker inspect ubuntu1 | grep IPA
 docker inspect -f {{.NetworkSettings.IPAddress}} ubuntu1
 ```
 
+### Creating a custom docker network
+Let's create a folder in /home/rps directory.
+```
+cd /home/rps
+mkdir Training
+cd Training
+```
+Create a file named Dockerfile with the below content in the /home/rps/Training folder.
+```
+FROM ubuntu:20.04
+MAINTAINER Jeganathan Swaminathan <jegan@tektutor.org>
+
+RUN apt-get update && apt-get install -y net-tools iputils-ping
+```
+Let us now build the custom image
+```
+cd /home/rps/Training
+docker build -t tektutor/ubuntu-net-tools:latest .
+```
+
+### Creating custom network in Docker
+```
+docker network create net-1
+docker network create net-2
+```
+
+### Listing the networks
+```
+docker network ls
+```
+
+### Inspecting network details
+```
+docker network inspect net-1
+```
+
+### Inspecting network details
+```
+docker network inspect net-2
+```
+
+### Creating new containers attaching it to our custom network
+```
+docker run -dit --name c1 --hostname c1 --network net-1 tektutor/ubuntu-net-tools:latest /bin/bash
+docker run -dit --name c1 --hostname c1 --network net-1 tektutor/ubuntu-net-tools:latest /bin/bash
+```
+
+### Listing the container whose name starts with letter c
+```
+docker ps --filter "--name=c*" 
+```
+
+### Finding IP details of c1 and c2
+```
+docker inspect -f {{.NetworkSettings.IPAddress}} c1
+docker inspect c2 | grep IPA
+```
+
+### Getting inside c1
+```
+docker exec -it c1 bash
+ping 172.19.0.2
+exit
+```
+As you can observe c1 isn't able to ping c2 container(IP - 172.19.0.2).
+
+### Getting inside c2
+```
+docker exec -it c2 bash
+ping 172.18.0.2
+exit
+```
+As you can observe c2 isn't able to ping c1 container(IP - 172.18.0.2).
+
+### Let us now connect c1 container to net-2 in addition to already connect net-1 network
+```
+docker network connect net-2 c1
+```
+
+### Inspect container c1 to observe two IP addresses for c1 container
+```
+docker inspect c1 | grep IPA
+ping 192.19.0.2
+exit
+```
+Now c1 should be able to ping c2.
+
+### Now ping c2 from c1
+```
+docker exec -it c2 | grep IPA
+ping 192.19.0.3
+exit
+```
+Now c2 should be able to ping c1.
