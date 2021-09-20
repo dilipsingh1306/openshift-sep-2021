@@ -236,6 +236,7 @@ docker stop ubuntu1
 ### Stopping multiple containers
 ```
 docker stop ubuntu2 ubuntu3 ubuntu4
+docker stop $(docker ps -q)
 ```
 
 ### Starting a exited container
@@ -246,9 +247,35 @@ docker start ubuntu1
 ### Starting multiple containers
 ```
 docker start ubuntu2 ubuntu3 ubuntu4
+docker start $(docker ps -aq)
 ```
 
-### Restarting 
+### Restarting a container
+```
+docker restart ubuntu1
+```
+
+### Restarting multiple containers
+```
+docker restart ubuntu1 ubuntu2 ubuntu3 ubuntu4
+docker restart $(docker ps -q)
+```
+
+### Delete a single container graciously
+```
+docker stop ubuntu1
+docker rm ubuntu1
+```
+
+### Deleting multiple containers graciously
+```
+docker stop $(docker ps -q) && docker rm $(docker ps -aq)
+```
+
+### Deleting multiple containers forcibly
+```
+docker rm -f $(docker ps -aq)
+```
 
 ### Finding the IP address of a container
 ```
