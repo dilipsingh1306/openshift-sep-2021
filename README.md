@@ -85,7 +85,8 @@
           - they all use the same Linux Kernel
 
 
-### Local Docker Registry
+### Local Docker Registrydocker pull hello-world:latest
+
   - /var/lib/docker is the folder where the Docker images, image layers, container, etc are mainted
 
 ### Private Docker Registry
@@ -166,3 +167,12 @@ The expected output is
 REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
 </pre>
 
+### Listing docker images from Local Docker Registry
+```
+docker images
+```
+
+### Downloading a Docker image from Docker Hub website(Docker Remote Registry) to Local Registry
+```
+docker pull hello-world:latest
+```
