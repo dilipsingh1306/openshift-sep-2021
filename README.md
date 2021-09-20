@@ -277,6 +277,19 @@ docker stop $(docker ps -q) && docker rm $(docker ps -aq)
 docker rm -f $(docker ps -aq)
 ```
 
+### Renaming a container
+```
+docker rename ubuntu1 server1
+```
+<pre>
+ubuntu1 - current container name
+server1 - new container name
+</pre>
+You may check the new name 
+```
+docker ps
+```
+
 ### Finding the IP address of a container
 ```
 docker inspect ubuntu1 | grep IPA
