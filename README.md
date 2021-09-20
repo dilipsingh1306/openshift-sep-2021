@@ -293,5 +293,6 @@ docker ps
 ### Finding the IP address of a container
 ```
 docker inspect ubuntu1 | grep IPA
+docker inspect -f {{.NetworkSettings.IPAddress}} ubuntu1
 ```
 
