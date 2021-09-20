@@ -12,7 +12,7 @@
 ### What is Hypervisor?
 
 - nothing but Virtualization Technology
-- Virtualization came around year 2000
+- Virtualization came around year 2000tektutorjegan
 - Virtualization is a technology that helps boot mulitple OS simultaneously on the same PC/Workstation/Server
 - Is it software Technology?
 - Is it a Hardware Technology?
@@ -138,3 +138,29 @@ The expected output is
 [jegan@tektutor ~]$ docker images
 REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
 </pre>
+
+### Local Docker Registry
+  - /var/lib/docker is the folder where the Docker images, image layers, container, etc are mainted
+
+### Private Docker Registry
+  - can be setup using registry:2 docker image ( good for learning, not recommended for production )
+  - can also setup using Sonatype Nexus or JFrog Artifactory ( Recommended for Production )
+  - can host Proprierary Docker Images within your organization giving access to restricted users
+
+### Docker Hub (Dock Hub website mainted by Docker Inc)
+  - Public Docker Remote Repostiroy
+  - There is a community maintained Repository for Open Source Docker-CE and separate repository for Docker-EE.
+  - Has a wide range of open source Docker Images
+
+### Docker Image
+  - a blueprint of a Docker container
+  - specification of a Docker containers
+  - any tools installed in the Docker image are available on the container
+  - images are used to create a docker container
+  - every images is allocated a unique name and ID
+
+### Docker Container
+  - is a instance of a Docker Image
+  - with a single docker image, any number of Docker containers can be created
+  - every container is alloted with a Private IP by default
+  - every container gets a unique name and ID
