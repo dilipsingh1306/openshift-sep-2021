@@ -200,3 +200,19 @@ CONTAINER ID   IMAGE          COMMAND       CREATED          STATUS          POR
 417b2faf758b   ubuntu:20.04   "/bin/bash"   2 seconds ago    Up 1 second               ubuntu2
 e5c04224c748   ubuntu:20.04   "/bin/bash"   24 seconds ago   Up 23 seconds             ubuntu1
 </pre>
+
+### Getting inside the container shell
+```
+docker exec -it ubuntu1 /bin/bash
+```
+The expected output is
+<pre>
+[jegan@tektutor ~]$ docker exec -it ubuntu1 /bin/bash
+root@ubuntu1:/# hostname
+ubuntu1
+root@ubuntu1:/# hostname -i
+172.17.0.2
+root@ubuntu1:/# ls
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@ubuntu1:/# 
+</pre>
