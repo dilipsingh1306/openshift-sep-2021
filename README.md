@@ -27,7 +27,8 @@
                - Primary of Servers/Workstations maybe to host multiple Virtual Machines
        - Oracle 
            - VirtualBox (Free for Commercial use as well supported on Unix/Linux/Widows & Mac) 
-       - Parallels (Mac - OSX)
+       - Parallels (Mac - OSX)docker run --dit --name ubuntu1 --hostname ubuntu2 ubuntu:20.04 /bin/bash
+
        - Microsoft
            - Hyper-V
 - heavy-weight technology
@@ -179,8 +180,8 @@ docker pull hello-world:latest
 
 ### Creating containers in background(daemon/deattached) mode
 ```
-docker run --dit --name ubuntu1 --hostname ubuntu2 ubuntu:20.04 /bin/bash
-docker run --dit --name ubuntu2 --hostname ubuntu2 ubuntu:20.04 /bin/bash
+docker run -dit --name ubuntu1 --hostname ubuntu2 ubuntu:20.04 /bin/bash
+docker run -dit --name ubuntu2 --hostname ubuntu2 ubuntu:20.04 /bin/bash
 ```
 The expected output is
 <pre>
