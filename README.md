@@ -53,6 +53,7 @@
        - no dedicated hardwares resources are required for each container
        - containers are application process not Operating System or not Virtual Machine(completely functional OS)
        - each containers runs in its own namespace(
+   - 
    - each container has the below
        - has an IP Address
        - has shell (bash, korn, sh, etc)
@@ -216,3 +217,18 @@ root@ubuntu1:/# ls
 bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
 root@ubuntu1:/# 
 </pre>
+
+### Listing all currently running containers
+```
+docker ps
+```
+
+### Listing all containers ( containers that are merely created, running and exited, etc.,)
+```
+docker ps -a
+```
+
+### Finding the IP address of a container
+```
+docker inspect ubuntu1 | grep IPA
+```
