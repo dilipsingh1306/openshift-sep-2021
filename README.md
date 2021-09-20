@@ -95,3 +95,46 @@ docker --version
 docker images
 ```
 When prompted for root password, type rps@12345
+
+### Try docker commands as non-root user(rps)
+```
+docker images
+```
+You may get the below error
+<pre>
+[jegan@tektutor ~]$ docker images
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/images/json": dial unix /var/run/docker.sock: connect: permission denied
+</pre>
+
+As the 'jegan' user, in your case 'rps' user isn't part of docker user group, the rps user isn't able to write to
+the socket.
+
+Login as root(administrator) user
+```
+su -
+whoami
+```
+Type your root password which is rps@12345
+The expected output is
+<pre>
+[jegan@tektutor ~]$ su -
+Password: 
+Last login: Mon Sep 20 02:01:21 PDT 2021 on pts/0
+[root@tektutor ~]# whoami
+root
+</pre>
+
+Add the rps user to the docker user group
+```
+usermod -aG docker rps
+exit
+sudo su rps
+docker images
+```
+The expected output is
+<pre>
+[jegan@tektutor ~]$ sudo su jegan
+[sudo] password for jegan: 
+[jegan@tektutor ~]$ docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+</pre>
