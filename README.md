@@ -94,7 +94,7 @@
 ### Private Docker Registry
   - can be setup using registry:2 docker image ( good for learning, not recommended for production )
   - can also setup using Sonatype Nexus or JFrog Artifactory ( Recommended for Production )
-  - can host Proprierary Docker Images within your organization giving access to restricted users
+  - can host Proprietary Docker Images within your organization giving access to restricted users
 
 ### Docker Hub (Dock Hub website mainted by Docker Inc)
   - Public Docker Remote Repostiroy
