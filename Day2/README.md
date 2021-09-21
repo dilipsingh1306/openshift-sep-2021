@@ -77,6 +77,8 @@ echo "Web Server 3" > index.html
 docker cp web1:/usr/share/html/index.html
 ```
 
+Repeat the above process for web4 and web5.
+
 ### Testing if Load Balancer container is working as expected
 Find the IP Address of your lab machine
 ```
