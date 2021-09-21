@@ -266,3 +266,27 @@ NAME       STATUS   ROLES    AGE   VERSION
 tektutor   Ready    <none>   10m   v1.21.4-3+e5758f73ed2a04
 </pre>
 
+### Creating your first deploy in Kubernetes (microk8s)
+```
+microk8s kubectl create deploy nginx --image=nginx:1.20
+```
+
+### Listing all deployments
+```
+microk8s kubectl get deployments
+microk8s kubectl get deploy
+```
+
+### List all replicasets
+```
+microk8s kubectl get replicasets
+microk8s kubectl get replicaset
+microk8s kubectl get rs
+```
+
+### List all pods
+```
+microks8 kubectl get pods
+microk8s kubectl get pod
+microk8s kubectl get po
+```
