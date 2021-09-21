@@ -253,4 +253,9 @@ su -
 snap install microk8s --classic 
 microk8s status --wait-ready
 microk8s kubectl get all --all-namespaces 
+echo 'export PATH=$PATH:/var/lib/snapd/snap/bin' | sudo tee -a /etc/profile.d/mysnap.sh
+```
+Close you terminal, launch the terminal and login as root user
+```
+microk8s get pods --all-namespaces
 ```
