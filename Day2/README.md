@@ -229,10 +229,9 @@ mysql>
 
 </pre>
 
+With this lab exercise, we would understand that our data is safe even though mysql1 container was removed.  
+We could still access the data created within mysql1 container via mysql2 container because the data is stored
+externally in the host path /tmp.
 
-
-
-
-
-
-
+For production, using hostpath isn't recommended.  Hence you may consider using AWS S3 or similar storage services as 
+Volume.
