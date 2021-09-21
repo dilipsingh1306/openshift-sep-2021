@@ -257,5 +257,12 @@ echo 'export PATH=$PATH:/var/lib/snapd/snap/bin' | sudo tee -a /etc/profile.d/my
 ```
 Close you terminal, launch the terminal and login as root user
 ```
-microk8s get pods --all-namespaces
+microk8s kubectl get nodes
 ```
+The expected output is
+<pre>
+[root@tektutor ~]# microk8s kubectl get nodes
+NAME       STATUS   ROLES    AGE   VERSION
+tektutor   Ready    <none>   10m   v1.21.4-3+e5758f73ed2a04
+</pre>
+
