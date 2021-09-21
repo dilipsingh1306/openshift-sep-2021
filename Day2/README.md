@@ -1,4 +1,8 @@
 ### Setting up a load balancer using containers
+We need to do port forwarding only for lb container as lb is the only container which is outward facing.
+While web1 to web5 are just going to be maintained locally visible with private IPs with no port-forwarding, 
+hence no one can access web1 to web5 webserver from outside world, which is secured.
+
 ```
 docker run -d --name lb --hostname lb -p 80:80 nginx:1.20
 docker run -d --name web1 --hostname web1 nginx:1.20
