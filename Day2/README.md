@@ -256,6 +256,21 @@ microk8s kubectl get all --all-namespaces
 echo 'export PATH=$PATH:/var/lib/snapd/snap/bin' | sudo tee -a /etc/profile.d/mysnap.sh
 ```
 Close you terminal, launch the terminal and login as root user
+
+Adding microk8s in path permanently
+```
+vim ~/.bashrc
+```
+And append the below line at as the end of the file
+```
+export PATH=/var/lib/snapd/snap/bin:$PATH
+```
+To apply the .bashrc changes immediately, you need to run
+```
+source ~/.bashrc
+```
+
+You may test if your K8s cluster is up and running by trying the below command
 ```
 microk8s kubectl get nodes
 ```
