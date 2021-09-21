@@ -1,9 +1,11 @@
 ### Setting up a load balancer using containers
 ```
 docker run -d --name lb --hostname lb -p 80:80 nginx:1.20
-docker run -d --name web1 --hostname web1 -p 80:80 nginx:1.20
-docker run -d --name web2 --hostname web2 -p 80:80 nginx:1.20
-docker run -d --name web3 --hostname web3 -p 80:80 nginx:1.20
+docker run -d --name web1 --hostname web1 nginx:1.20
+docker run -d --name web2 --hostname web2 nginx:1.20
+docker run -d --name web3 --hostname web3 nginx:1.20
+docker run -d --name web4 --hostname web4 nginx:1.20
+docker run -d --name web5 --hostname web5 nginx:1.20
 ```
 
 ### Configuring lb container as a Load Balancer
