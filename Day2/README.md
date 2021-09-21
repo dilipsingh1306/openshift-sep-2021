@@ -98,3 +98,8 @@ Hope you now understand how port-forwarding in Docker helps you access the conta
 would be able to appreciate, how a simple High Available(HA) website works with by performing this lab exercise. 
 
 
+###  Testing High Availability
+You may try stopping some containers and see what happens when try accessing the web page.
+```
+docker stop web4
+```
