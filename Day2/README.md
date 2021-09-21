@@ -235,3 +235,19 @@ externally in the host path /tmp.
 
 For production, using hostpath isn't recommended.  Hence you may consider using AWS S3 or similar storage services as 
 Volume.
+
+### Installing MicroK8s Kubernetes in Worker Node2
+
+#### We need to first install snap package manager in CentOS 8.x
+```
+su -
+yum install -y epel-release
+yum install -y snapd
+systemctl enable --now snapd.socket
+ln -s /var/lib/snapd/snap /snap
+```
+
+#### Now let's install Microk8s cluster
+```
+
+```
