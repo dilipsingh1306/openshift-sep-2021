@@ -47,6 +47,14 @@ http {
     }
 }
 ```
+The assumption is
+<pre>
+172.17.0.3 - IP Address of web1
+172.17.0.4 - IP Address of web2
+172.17.0.5 - IP Address of web3
+172.17.0.6 - IP Address of web4
+172.17.0.7 - IP Address of web5
+</pre>
 
 #### Copy the nginx.conf file to lb container
 ```
