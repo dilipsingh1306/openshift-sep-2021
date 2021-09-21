@@ -249,5 +249,8 @@ ln -s /var/lib/snapd/snap /snap
 
 #### Now let's install Microk8s cluster
 ```
-
+su - 
+snap install microk8s --classic 
+microk8s status --wait-ready
+microk8s kubectl get all --all-namespaces 
 ```
