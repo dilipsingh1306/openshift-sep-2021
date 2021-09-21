@@ -74,19 +74,19 @@ copying and restart should fix the issue.
 #### Modifying the web1 web page
 ```
 echo "Web Server 1" > index.html
-docker cp web1:/usr/share/html/index.html
+docker cp web1:/usr/share/nginx/html/index.html
 ```
 
 ### Modifying the web2 web page
 ```
 echo "Web Server 2" > index.html
-docker cp web1:/usr/share/html/index.html
+docker cp web1:/usr/share/nginx/html/index.html
 ```
 
 ### Modifying the web3 web page
 ```
 echo "Web Server 3" > index.html
-docker cp web1:/usr/share/html/index.html
+docker cp web1:/usr/share/nginx/html/index.html
 ```
 
 Repeat the above process for web4 and web5.
@@ -115,3 +115,124 @@ You may try stopping some containers and see what happens when try accessing the
 ```
 docker stop web4
 ```
+
+### Volume Mounting
+Let us create a mysql container
+```
+docker run -d --name mysql1 --hostname mysql1 -e MYSQL_ROOT_PASSWORD=root mysql:8
+```
+
+Let us list and see if mysql1 container is running
+```
+docker ps
+```
+
+Let us get inside the mysql1 container
+```
+docker exec -it mysql1 sh
+mysql -u root -p 
+CREATE DATABASE tektutor;
+USE tektutor;
+CREATE TABLE Training VALUES (id int, name VARCHAR(25), duration VARCHAR(25));
+INSERT INTO Training VALUES ( 1, "Mastering C++", "5 Days" );
+INSERT INTO Training VALUES ( 2, "Advanced Python", "5 Days" );
+INSERT INTO Training VALUES ( 3, "DevOps", "3 Days" );
+SELECT * FROM Training;
+exit
+exit
+```
+Let us mysql1 container, along with the container your data has gone.
+```
+docker rm -f mysql1
+```
+
+With volume mounting, we will not loose data when the container is delete/aborted.
+```
+docker run -d --name mysql1 --hostname mysql1 -e MYSQL_ROOT_PASSWORD=root -v /tmp:/var/lib/mysql mysql:8
+
+docker exec -it mysql1 sh
+
+mysql -u root -p 
+CREATE DATABASE tektutor;
+USE tektutor;
+CREATE TABLE Training VALUES (id int, name VARCHAR(25), duration VARCHAR(25));
+INSERT INTO Training VALUES ( 1, "Mastering C++", "5 Days" );
+INSERT INTO Training VALUES ( 2, "Advanced Python", "5 Days" );
+INSERT INTO Training VALUES ( 3, "DevOps", "3 Days" );
+SELECT * FROM Training;
+
+exit
+exit
+```
+Now let's remove the mysql1 container. Even though we removed mysql1 container your data is intact.
+```
+docker rm -f mysql1
+```
+
+Let's create a new mysql2 container mounting the same path
+```
+docker run -d --name mysql2 --hostname mysql2 -e MYSQL_ROOT_PASSWORD=root -v /tmp:/var/lib/mysql mysql:8
+
+docker exec -it mysql2 sh
+
+mysql -u root -p 
+SHOW  DATABASES;
+USE tektutor;
+SHOW TABLES;
+SELECT * FROM Training;
+```
+The expected output is
+<pre>
+[jegan@tektutor /]$ docker exec -it mysql2 sh
+# mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.26 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| tektutor           |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> USE tektutor;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SELECT * FROM Training;
++------+----------------------+----------+
+| id   | name                 | duration |
++------+----------------------+----------+
+|    1 | DevOps               | 5 Days   |
+|    2 | Qt & QML Programming | 5 Days   |
+|    3 | Advanced Scala       | 5 Days   |
++------+----------------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> 
+
+</pre>
+
+
+
+
+
+
+
+
