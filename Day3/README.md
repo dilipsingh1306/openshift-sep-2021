@@ -98,6 +98,16 @@ nginx-56f64654d5-tv5jr   1/1     Running   0          4m15s
 </pre>
 The number of pods you see will depend on how many pods to scaled up.
 
+
+### Creating a nginx deployment
+```
+kubectl create deploy nginx --image=nginx:1.20
+```
+### List nginx deploy,replicaset and pods
+```
+kubectl get deploy,rs,po
+```
+
 ### Creating a NodePort external service for deployment nginx
 ```
 kubectl expose deploy nginx --type=NodePort --port=80
