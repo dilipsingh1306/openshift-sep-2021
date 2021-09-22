@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: docker-hub
+spec:
+  containers:
+  - name: docker-hub
+    image: nginx:1.20
+  imagePullSecrets:
+  - name: regcred
