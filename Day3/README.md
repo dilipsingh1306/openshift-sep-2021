@@ -131,7 +131,9 @@ Events:                   <none>
 
 ### Accessing the NodePort service
 ```
-curl http://master:<node-port>
-curl http://worker1:<node-port>
-curl http://worker2:<node_port>
+curl http://master:31720
+curl http://worker1:31720
+curl http://worker2:31720
+
+curl http://nginx:80
 ```
