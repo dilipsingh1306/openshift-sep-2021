@@ -61,3 +61,18 @@ You may create the pod using the mypod.yml manifest file
 ```
 kubectl apply -f mypod.yml
 ```
+
+Now you may verify if k8s is able to use the docker credentials to pull the docker hub images
+```
+kubectl get po
+```
+The expected output is
+<pre>
+[root@master ~]# kubectl get po 
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-56f64654d5-9hnsz   1/1     Running   0          5m6s
+nginx-56f64654d5-ls49b   1/1     Running   0          5m6s
+nginx-56f64654d5-sf9ss   1/1     Running   0          4m12s
+nginx-56f64654d5-tv5jr   1/1     Running   0          4m15s
+</pre>
+The number of pods you see will depend on how many pods to scaled up.
