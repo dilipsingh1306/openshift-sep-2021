@@ -33,3 +33,31 @@ default-token-sft5f   kubernetes.io/service-account-token   3      135m
 <b>regcred               kubernetes.io/dockerconfigjson        1      8s</b>
 </pre>
 
+### Using the regcred K8s secret to pull docker images
+Let navigate to /home/rps/Training in master node i.e wherever you generally run the kubectl commands.
+```
+cd /home/rps
+mkdir Training
+cd Training
+git clone https://github.com/tektutor/openshift-sep-2021.git
+cd openshift-sep-2021
+cd Day3/
+touch mypod.yml
+```
+Make sure the below content is pasted in the mypod.yml
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: docker-hub
+spec:
+  containers:
+  - name: docker-hub
+    image: nginx:1.20
+  imagePullSecrets:
+  - name: regcred
+```
+You may create the pod using the mypod.yml manifest file
+```
+kubectl apply -f mypod.yml
+```
