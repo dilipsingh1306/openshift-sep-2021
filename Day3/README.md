@@ -108,6 +108,17 @@ kubectl create deploy nginx --image=nginx:1.20
 kubectl get deploy,rs,po
 ```
 
+### Scale up nginx deployment
+```
+kubectl scale deploy/nginx --replicas=4
+```
+
+### List po
+```
+kubectl get po
+```
+
+
 ### Creating a NodePort external service for deployment nginx
 ```
 kubectl expose deploy nginx --type=NodePort --port=80
