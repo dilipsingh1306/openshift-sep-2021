@@ -121,8 +121,8 @@ IP Families:              IPv4
 IP:                       10.105.85.242
 IPs:                      10.105.85.242
 Port:                     <unset>  80/TCP
-TargetPort:               80/TCP
-NodePort:                 <unset>  <b>31720/TCP</b>
+TargetPort:              80/TCP
+NodePort:                 <unset> <b>31720/TCP</b>
 Endpoints:                192.168.189.74:80,192.168.235.141:80,192.168.235.142:80 + 1 more...
 Session Affinity:         None
 External Traffic Policy:  Cluster
