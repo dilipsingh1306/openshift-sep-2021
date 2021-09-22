@@ -1,3 +1,24 @@
+### How Kubernetes allots a single IP address to a group of containers in a Pod
+The pause container provides the Network stack and all other containers in the same Pod shares the network stack
+of the pause container.
+```
+docker run -d --name pause --hostname pause k8s.gcr.io/pause:3.5
+docker run -dit --name c1 --network=container:pause ubuntu:20.04 /bin/bash
+```
+
+If you find the IP Address of the pause container, it would have acquired an IP Address
+```
+docker inspect pause | grep IPA
+```
+
+Now let's check the IP address of c1 container
+```
+docker exec -it c1 bash
+hostname -i
+```
+Interestingly, 'pause' container and 'c1' containers both shares the same IP.  This is the technique that is used
+in K8s Pods.
+
 ### Storing Docker Login Credentials as Secrets in Kubernetes
 
 First we need to perform a docker login 
