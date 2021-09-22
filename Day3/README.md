@@ -130,10 +130,17 @@ Events:                   <none>
 </pre>
 
 ### Accessing the NodePort service
+#### Approach 1
+curl http://NodeIP:NodePort
+curl http://NodeHostname:NodePort
 ```
 curl http://master:31720
 curl http://worker1:31720
 curl http://worker2:31720
+```
 
+#### Approach 2
+curl http://service-name:service-port
+```
 curl http://nginx:80
 ```
