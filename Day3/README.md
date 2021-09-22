@@ -97,3 +97,41 @@ nginx-56f64654d5-sf9ss   1/1     Running   0          4m12s
 nginx-56f64654d5-tv5jr   1/1     Running   0          4m15s
 </pre>
 The number of pods you see will depend on how many pods to scaled up.
+
+### Creating a NodePort external service for deployment nginx
+```
+kubectl expose deploy nginx --type=NodePort --port=80
+```
+
+### Finding more details about the nginx service
+```
+kubectl describe svc nginx
+```
+The expected output is
+<pre>
+[root@master ~]# <b>kubectl describe svc/nginx</b>
+Name:                     nginx
+Namespace:                default
+Labels:                   app=nginx
+Annotations:              <none>
+Selector:                 app=nginx
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.105.85.242
+IPs:                      10.105.85.242
+Port:                     <unset>  80/TCP
+TargetPort:               80/TCP
+NodePort:                 <unset>  <b>31720/TCP</b>
+Endpoints:                192.168.189.74:80,192.168.235.141:80,192.168.235.142:80 + 1 more...
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+</pre>
+
+### Accessing the NodePort service
+```
+curl http://master:<node-port>
+curl http://worker1:<node-port>
+curl http://worker2:<node_port>
+```
