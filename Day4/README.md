@@ -53,7 +53,7 @@ Namespace:         default
 Labels:            app=nginx
 Annotations:       <none>
 Selector:          app=nginx
-Type:              ClusterIP
+Type:              <b>ClusterIP</b>
 IP Family Policy:  SingleStack
 IP Families:       IPv4
 IP:                <b>10.99.150.182</b>
@@ -127,7 +127,7 @@ Namespace:                default
 Labels:                   app=nginx
 Annotations:              <none>
 Selector:                 app=nginx
-Type:                     LoadBalancer
+Type:                     <b>LoadBalancer</b>
 IP Family Policy:         SingleStack
 IP Families:              IPv4
 IP:                       10.97.194.244
