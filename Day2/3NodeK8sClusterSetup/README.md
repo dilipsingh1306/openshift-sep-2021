@@ -1,11 +1,12 @@
 # Installing your 3-Node Kubernetes Cluster v1.22 in OnPrem Servers(CentOS 8.3+) 
 
 ### You make like these articles, give it a try
+<pre>
 https://github.com/flannel-io/flannel
 https://docs.openshift.com/container-platform/3.4/architecture/additional_concepts/flannel.html
 https://www.tigera.io/blog/kubernetes-networking-with-calico/
 https://docs.projectcalico.org/reference/architecture/overview
-
+</pre>
 
 ### Disable Virtual Memory (swap parition) in Master and Worker Nodes
 ```
