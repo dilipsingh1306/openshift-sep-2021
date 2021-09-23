@@ -208,8 +208,11 @@ sudo systemctl restart kubelet
 
 ### Bootstrapping Master Node as root user
 ```
+su -
 kubeadm init --pod-network-cidr=192.168.0.0/16
-
+```
+Once your `kubeadm init` is successfully completed, make sure you do the below
+```
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
@@ -223,13 +226,44 @@ To force apply /root/.bashrc changes immediately
 ```
 source /root/.bashrc
 ```
+Also make sure you do this for your non-admin user terminal as well
+```
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+```
+Export KUBECONFIG in your /home/jegan/.bashrc with below line appended at the end of the file.  Ofcourse, you need to replace 'jegan' with your non-admin user name :)
+```
+export KUBECONFIG=$HOME/.kube/config
+```
+To force apply changes done in bashrc
+```
+source ~/.bashrc
+```
 
 Save your join token in a file on the Master Node, the token varies on every system and every time you type kubeadm init it changes on the same system, hence you need to save your join token for your reference before you clear your terminal screen.
+
+##### Create a file with name token or a better name and save your token.
 ```
-vim token
 kubeadm join 192.168.154.128:6443 --token 5zt7tp.2txcmgnuzmxtgnl \
         --discovery-token-ca-cert-hash sha256:27758d146627cfd92079935cbaff04cb1948da37c78b2beb2fc8b15c2a5adba
 ```
+
+### Troubleshooting kubeadm init and join (Applicable for master and worker nodes)
+```
+su -
+kubeadm reset
+```
+
+You need to manually remove the below folder
+```
+su -
+rm -rf /etc/cni/net.d
+rm -rf /etc/kubernetes
+rm -rf $HOME/.kube
+```
+Now you may proceed with 'kubeadm init' with appropriate pod-network-cidr subnet.
+
 
 #### In case you forgot to save your join token and cleared the terminal screen, no worries try this on Master Node
 ```
@@ -284,17 +318,3 @@ kubectl get nodes
 ![Node List](https://github.com/tektutor/kubernetes-may-2021/blob/master/Day2/3NodeClusterSetup/node-list.png)
 
 If you see similar output on your system, your 3 node Kubernetes cluster is all set !!!
-
-
-#### In case you had trouble setting up master, you could reset and try init as shown below (on master and worker nodes)
-```
-kubeadm reset
-```
-
-You need to manually remove the below folder
-```
-rm -rf /etc/cni/net.d
-rm -rf /etc/kubernetes
-rm -rf $HOME/.kube
-```
-Now you may proceed with 'kubeadm init' with appropriate pod-network-cidr subnet.
