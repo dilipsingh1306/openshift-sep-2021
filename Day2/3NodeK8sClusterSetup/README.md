@@ -100,7 +100,7 @@ You may have to open additional ports, depending on which CNI plugin you intend 
 
 In the above trusted zone, the IP 192.168.0.0/16 is the pod network cidr we intend to give while bootstrapping master node with Calico CNI. In case you prefer using Flannel CNI, you may need to replace 192.168.0.0/16 with 10.244.0.0/16.
 
-172.16.95.0/24 are my Virtual Machine Subnet range.  You may find your Virtual Machine IPs and modify this accordingly.
+172.16.95.0/24 is my Virtual Machine Subnet range.  You may find your Virtual Machine IPs and modify this accordingly.
 
 #### Open the below ports in Worker Nodes as root user
 ```
