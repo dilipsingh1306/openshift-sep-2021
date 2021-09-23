@@ -280,3 +280,76 @@ Rolling back to a particular revision
 ```
 kubectl rollout undo deployment.v1.apps/nginx-deployment --to-revision=2
 ```
+
+### Declaratively creating deployment and services
+
+#### Creating a deployment in declarative style
+```
+kubectl delete deploy/nginx
+
+cd ~/Training/openshift-sep-2021
+git pull
+cd Day4/manifests
+kubectl apply -f nginx-deploy.yml
+```
+
+#### Creating a NodePort service for nginx deployment
+```
+kubectl delet svc/nginx
+
+cd ~/Training/openshift-sep-2021
+git pull
+cd Day4/manifests
+kubectl apply -f nginx-nodeport-service.yml
+```
+Test your nodeport service
+```
+curl http://master:30400
+curl http://worker1:30400
+curl http://worker2:30400
+```
+You should be able to access the nginx page from any node from the K8s cluster.
+
+
+#### Creating a ClusterIP service for nginx deployment
+```
+kubectl delet svc/nginx
+
+cd ~/Training/openshift-sep-2021
+git pull
+cd Day4/manifests
+kubectl apply -f nginx-clusterip-service.yml
+kubectl describe -f nginx-clusterip-service.yml
+```
+The expected output is
+<pre>
+root@master manifests]# kubectl describe -f nginx-clusterip-service.yml 
+Name:              nginx
+Namespace:         default
+Labels:            app=nginx
+Annotations:       <none>
+Selector:          app=nginx
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                10.98.123.95
+IPs:               10.98.123.95
+Port:              <unset>  80/TCP
+TargetPort:        80/TCP
+Endpoints:         192.168.189.115:80,192.168.189.116:80,192.168.235.172:80 + 1 more...
+Session Affinity:  None
+Events:            <none>
+</pre>
+
+Test your clusterip service
+```
+curl http://10.98.123.95:80
+```
+Optional you can get inside one of the pods running, it need not be related to nginx pods.
+```
+kubectl run -i --tty busybox --image=busybox --restart=Never -- sh 
+curl http://nginx:80
+exit
+```
+You should be able to access the ClusterIP service with its name and service port as shown above.
+
