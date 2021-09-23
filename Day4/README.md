@@ -1,3 +1,30 @@
+### Service
+ - represents a group of pods of same type
+ - acts as a load balancer
+ - acts as an abstraction layer between the client and the backend pods
+ - eg:- 
+    - There is a Java microservice application 
+      Has two main layers/tiers
+      1. Frontend(Microservice)
+      2. Backend (MongoDB, CouchBase, etc.,)
+
+For further reference, you may read this
+https://kubernetes.io/docs/concepts/services-networking/service/
+
+### Types of Services supported by Kubernetes
+- ClusterIP
+- NodePort
+- LoadBalancer
+
+#### Cluster IP Service
+ - It is an internal service
+
+#### NodePort
+ - It is an external service
+
+### LoadBalancer
+ - It is an external service targetted for Cloud environments
+
 ### Installing Nginx based Ingress Controller on our 3 Node K8s Cluster
 
 #### Install ingress controller (Master Node only)
