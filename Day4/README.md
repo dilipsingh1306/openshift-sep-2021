@@ -224,3 +224,16 @@ The expected output is
 >   --timeout=120s
 <b>pod/ingress-nginx-controller-db898f6c7-ppbmt condition met</b>
 </pre>
+
+### Rolling update - upgrading your application from one version to another
+```
+kubectl set image deploy/nginx nginx=nginx:1.16.1
+```
+You may check the status of rolling update as shown below
+```
+kubectl rollout status deploy/nginx
+```
+You may check the history of rolling update as shown below
+```
+kubectl rollout history deploy/nginx
+```
