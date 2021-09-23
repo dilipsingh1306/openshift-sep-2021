@@ -1,3 +1,8 @@
+### Kubernetes API Reference
+```
+https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#-strong-api-groups-strong-
+```
+
 ### Service
  - represents a group of pods of same type
  - acts as a load balancer
