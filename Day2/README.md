@@ -239,6 +239,7 @@ Volume.
 ### Installing MicroK8s Kubernetes in Worker Node2
 
 #### We need to first install snap package manager in CentOS 8.x
+The below commands can be execute as a whole.
 ```
 su -
 yum install -y epel-release
@@ -248,6 +249,7 @@ ln -s /var/lib/snapd/snap /snap
 ```
 
 #### Now let's install Microk8s cluster
+You need to execute the below commands one at a time.
 ```
 su - 
 snap install microk8s --classic 
