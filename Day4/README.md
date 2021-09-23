@@ -65,7 +65,7 @@ Session Affinity:  None
 Events:            <none>
 </pre>
 
-You can access the NodePort as shown below
+You can access the ClusterIP Service as shown below
 ```
 curl http:10.99.150.182//:80
 ```
