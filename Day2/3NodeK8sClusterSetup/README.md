@@ -1,6 +1,12 @@
-## Installing your 3-Node Kubernetes Cluster in OnPrem Servers
+# Installing your 3-Node Kubernetes Cluster v1.22 in OnPrem Servers(CentOS 8.3+) 
 
-#### Disable Virtual Memory (swap parition) in Master and Worker Nodes
+### You make like these articles, give it a try
+https://docs.openshift.com/container-platform/3.4/architecture/additional_concepts/flannel.html
+https://www.tigera.io/blog/kubernetes-networking-with-calico/
+https://docs.projectcalico.org/reference/architecture/overview
+
+
+### Disable Virtual Memory (swap parition) in Master and Worker Nodes
 ```
 sudo swapoff -a
 ```
@@ -10,51 +16,59 @@ sudo vim /etc/fstab
 sudo systemctl daemon-reload
 ```
 
-#### Disable SELINUX in Master and Worker Nodes
+### Disable SELINUX in Master and Worker Nodes
+The below command disables selinux for now. SELinux will be disabled until you reboot your CentOS box.
 ``` 
 setenforce 0
 ```
 
-To permanently disable  SELINUX, you need to edit /etc/selinux/config file and change enforcing to disabled.
+To permanently disable SELINUX, you need to edit /etc/selinux/config file and change enforcing to disabled.
 ```
 sudo systemctl daemon-reload
 ```
-Configure the hostnames of master and all worker nodes
-In Master Node
+
+### Configure the hostnames K8s nodes
+#### In Master Node
 ```
 sudo hostnamectl set-hostname master
 ```
 
-In worker1 Node
+#### In worker1 Node
 ```
 sudo hostnamectl  set-hostname worker1
 ```
 
-In worker2 Node
+#### In worker2 Node
 ```
 sudo hostnamectl set-hostnamme worker2
 ```
 
-### In the master node, type the below command to find the IP Address
+### Update /etc/hosts in Master and all worker nodes
+This helps K8s nodes to resolve each other by the hostnames. K8s nodes will be named using the respective hostnames. 
+
+#### Find the IP Address of your master node
+My default Network Interface Card(NIC) name is `ens33'.  You may have to find your default NIC name.
+
 ```
 ifconfig ens33
 ```
-Note down the IP of master node as we need to add this in the /etc/hosts later.
+Note down the IP of master node as we need to add this in the /etc/hosts shortly.
 
-### In the worker1 node, type the below command to find the IP Address
+### Find the IP Address of your worker1 node
 ```
 ifconfig ens33
 ```
-Note down the IP of worker1 node as we need to add this in the /etc/hosts later.
+Note down the IP of worker1 node as we need to add this in the /etc/hosts shortly.
 
-### In the worker2 node, type the below command to find the IP Address
+### Find the IP Address of your worker2 node
 ```
 ifconfig ens33
 ```
-Note down the IP of worker2 node as we need to add this in the /etc/hosts later.
+Note down the IP of worker2 node as we need to add this in the /etc/hosts shortly.
 
-### Configure /etc/hosts file
-Append the IPAddresses of master, worker1 and worker2 as shown below in /etc/hosts files. This should be done in master, worker1 and worker2 nodes.
+### Configure /etc/hosts file ( Applicable for Master & Node Worker Nodes )
+Append the IP Addresses of master, worker1 and worker2 as shown below in /etc/hosts files. 
+
 ```
 192.168.254.129 master 
 192.168.254.130 worker1
@@ -62,7 +76,7 @@ Append the IPAddresses of master, worker1 and worker2 as shown below in /etc/hos
 ```
 
 ### Firewall configurations
-For summary of ports that must be opened, refer official Kubernetes documention https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+For summary of ports that must be opened, refer official Kubernetes documentation page https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
 #### Open the below ports in Master Node as root user
 ```
@@ -70,14 +84,23 @@ firewall-cmd --permanent --add-port=6443/tcp
 firewall-cmd --permanent --add-port=2379-2380/tcp
 firewall-cmd --permanent --add-port=10250-10252/tcp
 firewall-cmd --permanent --add-port=10255/tcp
+firewall-cmd --permanent --add-port=176-178/tcp
+firewall-cmd --permanent --add-port=8285/tcp
+
 firewall-cmd --permanent --add-masquerade
 firewall-cmd --permanent --zone=trusted  --add-source=192.168.0.0/16 
+firewall-cmd --permanent --zone=trusted  --add-source=172.16.95.0/24 
 modprobe br_netfilter
 systemctl daemon-reload
 systemctl restart firewalld
 systemctl status firewalld
 firewall-cmd --list-all
 ```
+You may have to open additional ports, depending on which CNI plugin you intend to use (Calico, Flannel, Weave etc.,)
+
+In the above trusted zone, the IP 192.168.0.0/16 is the pod network cidr we intend to give while bootstrapping master node with Calico CNI. In case you prefer using Flannel CNI, you may need to replace 192.168.0.0/16 with 10.244.0.0/16.
+
+172.16.95.0/24 are my Virtual Machine Subnet range.  You may find your Virtual Machine IPs and modify this accordingly.
 
 #### Open the below ports in Worker Nodes as root user
 ```
@@ -99,11 +122,17 @@ sudo yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
 sudo yum install -y docker-ce --allowerasing
-sudo usermod -aG docker user
-sudo su user
+sudo usermod -aG docker jegan
+sudo su jegan
 ```
+You may have to replace jegan(non-admin user) with your non-admin user.
 
 ### Configure Docker Engine to use systemd driver in Master and Worker Nodes
+You may not have /etc/docker folder by now, hence you may issue the below command 
+```
+sudo systemctl enable docker && sudo systemctl start docker
+```
+
 sudo vim /etc/docker/daemon.json
 
 ```
@@ -159,11 +188,11 @@ sudo snap remove microk8s
 ```
 
 ### Configure kubelet in Master and Worker Nodes
+Edit /etc/sysconfig/kubelet and append the below line
 ```
-sudo vim /etc/sysconfig/kubelet
-KUBELET_EXTRA_ARGS= --runtime-cgroups=/systemd/system.slice --kubelet-cgroups=/systemd/system.slice
+KUBELET_EXTRA_ARGS=--runtime-cgroups=/systemd/system.slice --kubelet-cgroups=/systemd/system.slice
+```
 
-```
 You may enable the kubelet service as shown below
 ```
 sudo systemctl enable --now kubelet
