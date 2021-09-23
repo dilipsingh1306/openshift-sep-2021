@@ -225,6 +225,41 @@ The expected output is
 <b>pod/ingress-nginx-controller-db898f6c7-ppbmt condition met</b>
 </pre>
 
+### Creating a nginx deployment in a declarative style
+You may create a file named nginx-deploy.yml and append the below code and save it
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: nginx
+  name: nginx
+  namespace: default
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx:1.20
+        imagePullPolicy: IfNotPresent
+        name: nginx
+```
+Once the file is saved, you may use it to deploy nginx
+```
+kubectl create -f nginx-deploy.yml
+```
+In case you need to edit the nginx-deploy.yml with some changes, subsequent times you can update as shown below
+```
+kubectl apply -f nginx-deploy.yml
+```
+
 ### Rolling update - upgrading your application from one version to another
 ```
 kubectl set image deploy/nginx nginx=nginx:1.16.1
