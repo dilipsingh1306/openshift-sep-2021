@@ -161,7 +161,7 @@ Type:                     <b>LoadBalancer</b>
 IP Family Policy:         SingleStack
 IP Families:              IPv4
 IP:                       10.97.194.244
-IPs:                  30200    10.97.194.244
+IPs:                      10.97.194.244
 Port:                     <unset>  80/TCP
 TargetPort:               80/TCP
 NodePort:                 <b>31154/TCP</b>
@@ -379,7 +379,7 @@ Namespace:                default
 Labels:                   app=nginx
 Annotations:              <none>
 Selector:                 app=nginx
-Type:                     LoadBalancer
+Type:                     <b>LoadBalancer</b>
 IP Family Policy:         SingleStack
 IP Families:              IPv4
 IP:                       10.111.206.62
