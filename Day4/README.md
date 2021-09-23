@@ -237,3 +237,11 @@ You may check the history of rolling update as shown below
 ```
 kubectl rollout history deploy/nginx
 ```
+Rolling back to previous version 
+```
+kubectl rollout undo deployment.v1.apps/nginx-deployment
+```
+Rolling back to a particular revision
+```
+kubectl rollout undo deployment.v1.apps/nginx-deployment --to-revision=2
+```
