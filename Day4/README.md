@@ -47,7 +47,7 @@ kubectl describe svc/nginx
 ```
 The expected output is
 <pre>
-[root@master openshift-sep-2021]# kubectl describe svc/nginx
+[root@master openshift-sep-2021]# <b>kubectl describe svc/nginx</b>
 Name:              nginx
 Namespace:         default
 Labels:            app=nginx
@@ -58,7 +58,7 @@ IP Family Policy:  SingleStack
 IP Families:       IPv4
 IP:                10.99.150.182
 IPs:               10.99.150.182
-Port:              <unset>  80/TCP
+Port:              <b>80/TCP</b>
 TargetPort:        80/TCP
 Endpoints:         192.168.189.81:80
 Session Affinity:  None
