@@ -56,7 +56,7 @@ Selector:          app=nginx
 Type:              ClusterIP
 IP Family Policy:  SingleStack
 IP Families:       IPv4
-IP:                10.99.150.182
+IP:                <b>10.99.150.182</b>
 IPs:               10.99.150.182
 Port:              <b>80/TCP</b>
 TargetPort:        80/TCP
