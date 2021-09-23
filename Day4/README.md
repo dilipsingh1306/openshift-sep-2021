@@ -295,7 +295,7 @@ kubectl apply -f nginx-deploy.yml
 
 #### Creating a NodePort service for nginx deployment
 ```
-kubectl delet svc/nginx
+kubectl delete svc/nginx
 
 cd ~/Training/openshift-sep-2021
 git pull
@@ -313,7 +313,7 @@ You should be able to access the nginx page from any node from the K8s cluster.
 
 #### Creating a ClusterIP service for nginx deployment
 ```
-kubectl delet svc/nginx
+kubectl delete svc/nginx
 
 cd ~/Training/openshift-sep-2021
 git pull
@@ -353,3 +353,49 @@ exit
 ```
 You should be able to access the ClusterIP service with its name and service port as shown above.
 
+#### Creating a LoadBalancer service for nginx deployment
+```
+kubectl delete svc/nginx
+
+cd ~/Training/openshift-sep-2021
+git pull
+cd Day4/manifests
+kubectl apply -f nginx-loadbalancer-service.yml
+kubectl describe -f nginx-loadbalancer-service.yml
+```
+The expected output is
+<pre>
+[root@master manifests]# <b>kubectl apply -f nginx-loadbalancer-service.yml</b> 
+service/nginx created
+[root@master manifests]# <b>kubectl get svc</b>
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+default-http-backend   ClusterIP      10.104.129.200   <none>        80/TCP         5h57m
+default-subdomain      ClusterIP      None             <none>        1234/TCP       144m
+kubernetes             ClusterIP      10.96.0.1        <none>        443/TCP        16h
+nginx                  LoadBalancer   10.111.206.62    <pending>     80:30548/TCP   5s
+[root@master manifests]# <b>kubectl describe svc/nginx</b>
+Name:                     nginx
+Namespace:                default
+Labels:                   app=nginx
+Annotations:              <none>
+Selector:                 app=nginx
+Type:                     LoadBalancer
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.111.206.62
+IPs:                      10.111.206.62
+Port:                     <b>80/TCP</b>
+TargetPort:               80/TCP
+NodePort:                 <b>30548/TCP</b>
+Endpoints:                192.168.189.115:80,192.168.189.116:80,192.168.235.172:80 + 1 more...
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+</pre>
+
+You may access the loadbalancer service on the Local cluster just like the way you normally access nodeport services.
+```
+curl http://master:30548
+curl http://worker1:30548
+curl http://worker2:30548
+```
