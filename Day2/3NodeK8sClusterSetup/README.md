@@ -84,10 +84,14 @@ For summary of ports that must be opened, refer official Kubernetes documentatio
 firewall-cmd --permanent --add-port=6443/tcp
 firewall-cmd --permanent --add-port=2379-2380/tcp
 firewall-cmd --permanent --add-port=10250-10252/tcp
+firewall-cmd --permanent --add-port=10254/tcp
 firewall-cmd --permanent --add-port=10255/tcp
 firewall-cmd --permanent --add-port=176-178/tcp
 firewall-cmd --permanent --add-port=8285/tcp
 firewall-cmd --permanent --add-port=8285/udp
+firewall-cmd --permanent --add-port=8443/tcp
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --permanent --add-port=443/tcp
 
 firewall-cmd --permanent --add-masquerade
 firewall-cmd --permanent --zone=trusted  --add-source=192.168.0.0/16 
@@ -107,10 +111,17 @@ In the above trusted zone, the IP 192.168.0.0/16 is the pod network cidr we inte
 #### Open the below ports in Worker Nodes as root user
 ```
 firewall-cmd --permanent --add-port=10250/tcp
+firewall-cmd --permanent --add-port=10254/tcp
 firewall-cmd --permanent --add-port=30000-32767/tcp
 firewall-cmd --permanent --add-port=176-178/tcp
 firewall-cmd --permanent --add-port=8285/tcp
 firewall-cmd --permanent --add-port=8285/udp
+
+firewall-cmd --permanent --add-port=8443/tcp
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --permanent --add-port=443/tcp
+
+
 firewall-cmd --permanent --add-masquerade
 firewall-cmd --permanent --zone=trusted  --add-source=192.168.0.0/16
 firewall-cmd --permanent --zone=trusted  --add-source=172.16.95.0/24 
