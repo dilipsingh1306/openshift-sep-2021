@@ -1,6 +1,7 @@
 # Installing your 3-Node Kubernetes Cluster v1.22 in OnPrem Servers(CentOS 8.3+) 
 
 ### You make like these articles, give it a try
+https://github.com/flannel-io/flannel
 https://docs.openshift.com/container-platform/3.4/architecture/additional_concepts/flannel.html
 https://www.tigera.io/blog/kubernetes-networking-with-calico/
 https://docs.projectcalico.org/reference/architecture/overview
@@ -86,6 +87,7 @@ firewall-cmd --permanent --add-port=10250-10252/tcp
 firewall-cmd --permanent --add-port=10255/tcp
 firewall-cmd --permanent --add-port=176-178/tcp
 firewall-cmd --permanent --add-port=8285/tcp
+firewall-cmd --permanent --add-port=8285/udp
 
 firewall-cmd --permanent --add-masquerade
 firewall-cmd --permanent --zone=trusted  --add-source=192.168.0.0/16 
@@ -106,8 +108,12 @@ In the above trusted zone, the IP 192.168.0.0/16 is the pod network cidr we inte
 ```
 firewall-cmd --permanent --add-port=10250/tcp
 firewall-cmd --permanent --add-port=30000-32767/tcp
+firewall-cmd --permanent --add-port=176-178/tcp
+firewall-cmd --permanent --add-port=8285/tcp
+firewall-cmd --permanent --add-port=8285/udp
 firewall-cmd --permanent --add-masquerade
-firewall-cmd --permanent --zone=trusted  --add-source=192.168.0.0/16 
+firewall-cmd --permanent --zone=trusted  --add-source=192.168.0.0/16
+firewall-cmd --permanent --zone=trusted  --add-source=172.16.95.0/24 
 modprobe br_netfilter
 systemctl daemon-reload
 systemctl restart firewalld
@@ -128,7 +134,7 @@ sudo su jegan
 You may have to replace jegan(non-admin user) with your non-admin user.
 
 ### Configure Docker Engine to use systemd driver in Master and Worker Nodes
-You may not have /etc/docker folder by now, hence you may issue the below command 
+You may not have /etc/docker folder by now, hence you need to issue the below command 
 ```
 sudo systemctl enable docker && sudo systemctl start docker
 ```
@@ -182,11 +188,6 @@ EOF
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 ```
 
-### Uninstall Microk8s
-```
-sudo snap remove microk8s
-```
-
 ### Configure kubelet in Master and Worker Nodes
 Edit /etc/sysconfig/kubelet and append the below line
 ```
@@ -198,7 +199,7 @@ You may enable the kubelet service as shown below
 sudo systemctl enable --now kubelet
 ```
 
-### Restart Docker and Kubelet
+### Restart Docker and Kubelet before you bootstrap master
 ```
 sudo systemctl daemon-reload
 sudo systemctl restart docker
@@ -214,12 +215,16 @@ cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-In order access the cluster without issues after machine reboot, add the below to /root/.bashrc
+In order to access the cluster without issues after machine reboot, add the below to /root/.bashrc
 ```
 export KUBECONFIG=/etc/kubernetes/admin.conf
 ```
+To force apply /root/.bashrc changes immediately
+```
+source /root/.bashrc
+```
 
-Save your join token in a file on the Master Node, the token varies on every system and every time you type kubeadm init, hence you need to save your join token for your reference before you clear your terminal screen.
+Save your join token in a file on the Master Node, the token varies on every system and every time you type kubeadm init it changes on the same system, hence you need to save your join token for your reference before you clear your terminal screen.
 ```
 vim token
 kubeadm join 192.168.154.128:6443 --token 5zt7tp.2txcmgnuzmxtgnl \
@@ -245,7 +250,16 @@ curl https://docs.projectcalico.org/manifests/calico.yaml -O
 kubectl apply -f calico.yaml
 ```
 
-#### In Master Node watch the pod creation after installing Calico
+#### In case you wish to install Flannel as opposed to Calico
+You can choose only one CNI at a time.  
+
+Flannel expects you to bootstrap master node with 10.244.0.0/16 pod network cidr. In case you have used 192.168.0.0/16 or some other pod-network-cidr for a different CNI, you need to perform 'kubeadm reset' and 'kubeadm init' before you install Flannel CNI.
+
+```
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
+
+#### In Master Node watch the pod creation after installing Network CNI
 ```
 kubectl get po -n kube-system -w
 ```
@@ -254,6 +268,8 @@ kubectl get po -n kube-system -w
 Press Ctrl+C to come out of watch mode.
 
 #### In Worker Node
+I have given the join token here for your reference, you need to copy and paste your join token that is shown on your master bootstrapped terminal.
+
 ```
 kubeadm join 192.168.154.128:6443 --token 5zt7tp.2txcmgnuzmxtgnl \
         --discovery-token-ca-cert-hash sha256:27758d146627cfd92079935cbaff04cb1948da37c78b2beb2fc8b15c2a5adba
@@ -281,3 +297,4 @@ rm -rf /etc/cni/net.d
 rm -rf /etc/kubernetes
 rm -rf $HOME/.kube
 ```
+Now you may proceed with 'kubeadm init' with appropriate pod-network-cidr subnet.
