@@ -32,11 +32,36 @@ kubectl scale deploy nginx --replicas=4
 kubectl expose deploy nginx --type=NodePort --port=80
 kubectl describe svc/nginx
 ```
-Assuming the NodePort assigned to nginx service is 30200, you can access the NodePort as shown below
+The expected output is
+<pre>
+[root@master openshift-sep-2021]# kubectl expose deploy nginx --type=NodePort --port=80
+service/nginx exposed
+[root@master openshift-sep-2021]# kubectl describe svc/nginx
+Name:                     nginx
+Namespace:                default
+Labels:                   app=nginx
+Annotations:              <none>
+Selector:                 app=nginx
+Type:                     <b>NodePort</b>
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.98.240.67
+IPs:                      10.98.240.67
+Port:                     <b>80/TCP</b>
+TargetPort:               80/TCP
+NodePort:                 <b>30491/TCP</b>
+Endpoints:                192.168.189.81:80
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+</pre>
+
+
+You can access the NodePort as shown below
 ```
-curl http://master:30200
-curl http://worker1:30200
-curl http://worker3:30200
+curl http://master:30491
+curl http://worker1:30491
+curl http://worker3:30491
 ```
 
 ### Creating a Cluster service (Internal Service)
@@ -131,7 +156,7 @@ Type:                     <b>LoadBalancer</b>
 IP Family Policy:         SingleStack
 IP Families:              IPv4
 IP:                       10.97.194.244
-IPs:                      10.97.194.244
+IPs:                  30200    10.97.194.244
 Port:                     <unset>  80/TCP
 TargetPort:               80/TCP
 NodePort:                 <b>31154/TCP</b>
