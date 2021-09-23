@@ -42,7 +42,7 @@ curl http://worker3:30200
 ### Creating a Cluster service (Internal Service)
 ```
 kubectl delete svc/nginx
-kubectl expose deploy nginx --type=NodePort --port=80
+kubectl expose deploy nginx --type=ClusterIP --port=80
 kubectl describe svc/nginx
 ```
 The expected output is
@@ -65,7 +65,7 @@ Session Affinity:  None
 Events:            <none>
 </pre>
 
-Assuming the NodePort assigned to nginx service is 30200, you can access the NodePort as shown below
+You can access the NodePort as shown below
 ```
 curl http:10.99.150.182//:80
 ```
@@ -104,6 +104,49 @@ Commercial support is available at
 </body>
 </html>
 </pre>
+
+
+### Creating a LoadBalancer service (Cloud External Service)
+Ideally you should only create LoadBalancer service in AWS, GCP, Azure, etc.,
+When you attempt to create LoadBalancer Service in AWS,GCP or Azure, it will end up creating an ALB/NLB.
+The Application Load Balancer or Network Load Balancer will load balance your pods running on different K8s worker nodes.
+
+Since we are trying this locally, don't expect any external Load Balancer created :)
+
+Locally it works just like NodePort Service.
+```
+kubectl delete svc/nginx
+kubectl expose deploy nginx --type=LoadBalancer --port=80
+kubectl describe svc/nginx
+```
+The expected output is
+<pre>
+[root@master openshift-sep-2021]# <b>kubectl describe svc/nginx</b>
+Name:                     nginx
+Namespace:                default
+Labels:                   app=nginx
+Annotations:              <none>
+Selector:                 app=nginx
+Type:                     LoadBalancer
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.97.194.244
+IPs:                      10.97.194.244
+Port:                     <unset>  80/TCP
+TargetPort:               80/TCP
+NodePort:                 <b>31154/TCP</b>
+Endpoints:                192.168.189.81:80
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+</pre>
+
+You may access the LoadBalancer locally as
+```
+curl http://master:31154
+curl http://worker1:31154
+curl http://worker2:31154
+```
 
 ### Installing Nginx based Ingress Controller on our 3 Node K8s Cluster
 
