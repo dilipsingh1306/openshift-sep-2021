@@ -28,3 +28,19 @@ NGINX Ingress controller
   nginx version: nginx/1.19.9
 -------------------------------------------------------------------------------
 </pre>
+
+### Checking if your Nginx Ingress Controller is ready to serve you
+```
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=120s
+```
+The expected output is
+<pre>
+[root@master openshift-sep-2021]# kubectl wait --namespace ingress-nginx \
+>   --for=condition=ready pod \
+>   --selector=app.kubernetes.io/component=controller \
+>   --timeout=120s
+<b>pod/ingress-nginx-controller-db898f6c7-ppbmt condition met</b>
+</pre>
