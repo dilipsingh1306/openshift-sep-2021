@@ -7,7 +7,9 @@ cd linux-amd64
 ls
 mv helm /usr/bin/helm
 ```
+
 The expected output is
+
 <pre>
 root@ubuntu:/home/jegan/Downloads# <b>tar xvfz helm-v3.7.0-linux-amd64.tar.gz</b>
 linux-amd64/
@@ -45,6 +47,7 @@ nginx
 │   └── tests
 │       └── test-connection.yaml
 └── values.yaml
+</pre>
 
 ### Let's create a helm chart for nginx deployment
 YOu need to remove all the files and directories inside nginx/templates folder and copy your deployment manifest files(s).
@@ -57,6 +60,7 @@ cp ../../*.yml .
 cd ../..
 helm create nginx
 ```
+
 The expected output is
 
 <pre>
