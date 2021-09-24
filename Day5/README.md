@@ -48,6 +48,7 @@ nginx
 
 ### Let's create a helm chart for nginx deployment
 YOu need to remove all the files and directories inside nginx/templates folder and copy your deployment manifest files(s).
+
 ```
 cd ~/Training/openshift-sep-2021
 cd Day4/helm-demo/nginx/templates
@@ -56,6 +57,8 @@ cp ../../*.yml .
 cd ../..
 helm create nginx
 ```
+The expected output is
+
 <pre>
 root@ubuntu:~/openshift-sep-2021/Day5/helm-demo# ls
 nginx
