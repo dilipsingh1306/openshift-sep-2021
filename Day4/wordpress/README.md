@@ -40,3 +40,33 @@ root@ubuntu:/home/jegan/Downloads/linux-amd64# ls
 helm  LICENSE  README.md
 root@ubuntu:/home/jegan/Downloads/linux-amd64# mv helm /usr/bin/helm
 </pre>
+
+### Let's create a custom helm chart(package)
+```
+cd ~/Training/openshift-sep-2021
+git pull
+cd Day5/
+helm create nginx
+tree nginx
+```
+The expected output is
+<pre>
+root@ubuntu:~/openshift-sep-2021/Day5/helm-demo# tree nginx
+nginx
+├── charts
+├── Chart.yaml
+├── templates
+│   ├── deployment.yaml
+│   ├── _helpers.tpl
+│   ├── hpa.yaml
+│   ├── ingress.yaml
+│   ├── NOTES.txt
+│   ├── serviceaccount.yaml
+│   ├── service.yaml
+│   └── tests
+│       └── test-connection.yaml
+└── values.yaml
+
+3 directories, 10 files
+</pre>
+
