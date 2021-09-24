@@ -25,6 +25,8 @@ cd ~/Downloads
 wget https://get.helm.sh/helm-v3.7.0-linux-amd64.tar.gz
 tar xvfz helm-v3.7.0-linux-amd64.tar.gz
 cd linux-amd64
+ls
+mv helm /usr/bin/helm
 ```
 The expected output is
 <pre>
@@ -33,4 +35,8 @@ linux-amd64/
 linux-amd64/helm
 linux-amd64/LICENSE
 linux-amd64/README.md
+root@ubuntu:/home/jegan/Downloads# cd linux-amd64/
+root@ubuntu:/home/jegan/Downloads/linux-amd64# ls
+helm  LICENSE  README.md
+root@ubuntu:/home/jegan/Downloads/linux-amd64# mv helm /usr/bin/helm
 </pre>
