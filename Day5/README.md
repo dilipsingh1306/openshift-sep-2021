@@ -102,3 +102,23 @@ nginx-7fb9867-thds2                1/1     Running       0              45s
 nginx-7fb9867-vvwd8                1/1     Running       0              45s
 nginx-7fb9867-ztqb7                1/1     Running       0              45s
 </pre>
+
+### OpenShift CRC Setup
+Assuming you have downloaded crc-linux-amd64.tar.xz file and the respective pull-secret file from RedHat website.
+```
+cd /home/rps/Downloads
+tar xvf crc-linux-amd64.tar.xz
+su -
+cp /hom/rps/Downloads/crc-linux-1.32.1-amd64/crc /usr/bin
+exit
+```
+Make sure the rps user is added to the /etc/sudoers file.
+
+You may proceed with the CRC OpenShift setup as rps user(non-admin)
+```
+crc config set memory 16384
+crc setup
+```
+
+
+```
