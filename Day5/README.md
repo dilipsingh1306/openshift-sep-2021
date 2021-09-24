@@ -120,5 +120,18 @@ crc config set memory 16384
 crc setup
 ```
 
-
+Once the 'crc setup' is completed successfully, you may configure RAM to 16384(16GB) and proceed with 'crc start'
 ```
+crc config set memory 16384
+crc config view
+crc start
+```
+This will take a while and if all goes well, you will get a URL to connect with developer and kubeadm user credentials.
+You may store the output in a file out.txt for your future reference.  
+
+At this time, you may fire up your web browser preferably Google Chrome and access the OpenShift URL displayed in your terminal.
+You can login as
+<pre>
+username - developer
+password - developer
+</pre>
