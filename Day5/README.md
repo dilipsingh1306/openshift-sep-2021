@@ -58,7 +58,7 @@ cd Day4/helm-demo/nginx/templates
 rm -rf *
 cp ../../*.yml .
 cd ../..
-helm create nginx
+<b>helm package nginx</b>
 ```
 
 The expected output is
@@ -67,7 +67,7 @@ The expected output is
 root@ubuntu:~/openshift-sep-2021/Day5/helm-demo# ls
 nginx
 root@ubuntu:~/openshift-sep-2021/Day5/helm-demo# helm package nginx
-Successfully packaged chart and saved it to: /root/openshift-sep-2021/Day5/helm-demo/nginx-0.1.0.tgz
+<b>Successfully packaged chart and saved it to: /root/openshift-sep-2021/Day5/helm-demo/nginx-0.1.0.tgz</b>
 root@ubuntu:~/openshift-sep-2021/Day5/helm-demo# 
 </pre>
 
@@ -82,16 +82,17 @@ The expected output is
 <pre>
 root@master helm-demo]# ls
 nginx  nginx-0.1.0.tgz
-[root@master helm-demo]# kubectl get deploy
+[root@master helm-demo]# <b>kubectl get deploy</b>
 No resources found in default namespace.
-[root@master helm-demo]# helm install nginx nginx-0.1.0.tgz 
+[root@master helm-demo]# <b>helm install nginx nginx-0.1.0.tgz
 NAME: nginx
 LAST DEPLOYED: Fri Sep 24 00:21:38 2021
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
-[root@master helm-demo]# kubectl get deploy
+</b>
+[root@master helm-demo]# <b>kubectl get deploy</b>
 NAME    READY   UP-TO-DATE   AVAILABLE   AGE
 nginx   4/4     4            4           22s
 [root@master helm-demo]# kubectl get po
