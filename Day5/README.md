@@ -70,3 +70,34 @@ root@ubuntu:~/openshift-sep-2021/Day5/helm-demo# helm package nginx
 Successfully packaged chart and saved it to: /root/openshift-sep-2021/Day5/helm-demo/nginx-0.1.0.tgz
 root@ubuntu:~/openshift-sep-2021/Day5/helm-demo# 
 </pre>
+
+### Installing nginx using the nginx helm chart that we created in the previous step
+```
+cd ~/Training/openshift-sep-2021
+git pull
+cd Day5/helm-demo
+helm install nginx nginx-0.1.0.tgz
+```
+The expected output is
+<pre>
+root@master helm-demo]# ls
+nginx  nginx-0.1.0.tgz
+[root@master helm-demo]# kubectl get deploy
+No resources found in default namespace.
+[root@master helm-demo]# helm install nginx nginx-0.1.0.tgz 
+NAME: nginx
+LAST DEPLOYED: Fri Sep 24 00:21:38 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+[root@master helm-demo]# kubectl get deploy
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+nginx   4/4     4            4           22s
+[root@master helm-demo]# kubectl get po
+NAME                               READY   STATUS        RESTARTS       AGE
+nginx-7fb9867-54jrm                1/1     Running       0              45s
+nginx-7fb9867-thds2                1/1     Running       0              45s
+nginx-7fb9867-vvwd8                1/1     Running       0              45s
+nginx-7fb9867-ztqb7                1/1     Running       0              45s
+</pre>
